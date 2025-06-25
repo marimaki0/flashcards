@@ -7,6 +7,7 @@ use App\Entity\Flashcard;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,14 +18,26 @@ class FlashcardForm extends AbstractType
         $builder
             ->add('question')
             ->add('answer')
-            ->add('difficulty')
+            ->add('difficulty', ChoiceType::class, [
+                'choices' => [
+                    'Simple' => 1,
+                    'Average' => 2,
+                    'Hard' => 3,
+                ],
+                'placeholder' => 'Choose difficulty',
+                'label' => 'Difficulty Level',
+            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => function(User $user) {
+                    return $user->getFirstName() . ' ' . $user->getLastName();
+                },
+                'placeholder' => 'Choose a user',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a category',
             ])
         ;
     }

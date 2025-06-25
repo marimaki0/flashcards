@@ -8,20 +8,32 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Question</th>
                 <th>Answer</th>
                 <th>Difficulty</th>
+                <th>User</th>
+                <th>Category</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for flashcard in flashcards %}
             <tr>
-                <td>{{ flashcard.id }}</td>
                 <td>{{ flashcard.question }}</td>
                 <td>{{ flashcard.answer }}</td>
-                <td>{{ flashcard.difficulty }}</td>
+                <td>
+                    {% if flashcard.difficulty == 1 %}
+                        Simple
+                    {% elseif flashcard.difficulty == 2 %}
+                        Average
+                    {% elseif flashcard.difficulty == 3 %}
+                        Hard
+                    {% else %}
+                        {{ flashcard.difficulty }}
+                    {% endif %}
+                </td>
+                <td>{{ flashcard.user.firstName }} {{ flashcard.user.lastName }}</td>
+                <td>{{ flashcard.category.name }}</td>
                 <td>
                     <a href="{{ path('app_flashcard_show', {'id': flashcard.id}) }}">show</a>
                     <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}">edit</a>
@@ -29,7 +41,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
