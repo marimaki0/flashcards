@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Flashcard{% endblock %}
+
+{% block body %}
+    <h1>Flashcard</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ flashcard.id }}</td>
+            </tr>
+            <tr>
+                <th>Question</th>
+                <td>{{ flashcard.question }}</td>
+            </tr>
+            <tr>
+                <th>Answer</th>
+                <td>{{ flashcard.answer }}</td>
+            </tr>
+            <tr>
+                <th>Difficulty</th>
+                <td>{{ flashcard.difficulty }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_flashcard_index') }}">back to list</a>
+
+    <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}">edit</a>
+
+    {{ include('flashcard/_delete_form.html.twig') }}
+{% endblock %}
