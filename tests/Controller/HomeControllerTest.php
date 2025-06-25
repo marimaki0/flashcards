@@ -9,7 +9,8 @@ final class HomeControllerTest extends WebTestCase
     public function testIndex(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/home');
+        $client->request('GET', '/flashcard');
+
 
         self::assertResponseIsSuccessful();
     }

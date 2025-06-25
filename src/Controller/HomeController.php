@@ -13,12 +13,11 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(FlashcardRepository $flashcardRepository, CategoryRepository $categoryRepository): Response
     {
-        // Jeśli użytkownik nie jest zalogowany, pokaż stronę login/register
+
         if (!$this->getUser()) {
             return $this->render('welcome.html.twig');
         }
-        
-        // Jeśli zalogowany, pokaż aplikację
+
         $flashcards = $flashcardRepository->findAll();
         $categories = $categoryRepository->findAll();
         

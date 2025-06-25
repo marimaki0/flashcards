@@ -3,188 +3,67 @@
 {% block title %}Flashcards{% endblock %}
 
 {% block body %}
-<div style="
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 30px 20px;
-">
+<div style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 20px;">
     <div style="max-width: 1200px; margin: 0 auto;">
-        <!-- Header -->
-        <div style="
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        ">
-            <div>
-                <h1 style="
-                    font-size: 2.5rem;
-                    font-weight: bold;
-                    color: #4a5568;
-                    margin: 0;
-                ">Flashcards 📚</h1>
-                <p style="
-                    color: #718096;
-                    margin: 5px 0 0 0;
-                    font-size: 1.1rem;
-                ">Manage your study cards</p>
+        <div style="background: white; padding: 25px 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                <div>
+                    <h1 style="font-size: 2.5rem; font-weight: bold; color: #4a5568; margin: 0;">Flashcards 📚</h1>
+                    <p style="color: #718096; margin: 5px 0 0 0; font-size: 1.1rem;">Manage your study cards - {{ selectedCategoryName }}</p>
+                </div>
+                
+                <a href="{{ path('app_flashcard_new') }}" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.2s; display: inline-block;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">➕ Create New Flashcard</a>
             </div>
-            
-            <a href="{{ path('app_flashcard_new') }}" style="
-                background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-                color: white;
-                padding: 12px 24px;
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 16px;
-                transition: all 0.2s;
-                display: inline-block;
-            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                ➕ Create New Flashcard
-            </a>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <span style="font-weight: 600; color: #4a5568; margin-right: 10px;">Filter by category:</span>
+                
+                <a href="{{ path('app_flashcard_index', {category: 'all'}) }}" style="background-color: {{ selectedCategory == 'all' ? '#94A3B8' : '#e2e8f0' }}; color: {{ selectedCategory == 'all' ? 'white' : '#4a5568' }}; padding: 8px 16px; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 600; transition: all 0.2s; display: inline-block;">All</a>
+
+                {% for category in categories %}
+                    <a href="{{ path('app_flashcard_index', {category: category.id}) }}" style="background-color: {{ selectedCategory == category.id ? category.color|default('#6366f1') : '#e2e8f0' }}; color: {{ selectedCategory == category.id ? 'white' : '#4a5568' }}; padding: 8px 16px; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 600; transition: all 0.2s; display: inline-block;">{{ category.name }}</a>
+                {% endfor %}
+            </div>
         </div>
 
-        <!-- Flashcards Grid -->
         {% if flashcards|length > 0 %}
-            <div style="
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 20px;
-                margin-bottom: 30px;
-            ">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin-bottom: 30px;">
                 {% for flashcard in flashcards %}
-                    <div style="
-                        background: white;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                        overflow: hidden;
-                        transition: all 0.3s;
-                    " onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 30px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'">
+                    <div style="background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 30px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'">
                         
-                        <!-- Card Header -->
-                        <div style="
-                            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                            color: white;
-                            padding: 15px 20px;
-                        ">
-                            <div style="
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                margin-bottom: 5px;
-                            ">
-                                <span style="
-                                    font-size: 14px;
-                                    opacity: 0.9;
-                                ">#{{ flashcard.id }}</span>
-                                
-                                <span style="
-                                    background: rgba(255,255,255,0.2);
-                                    padding: 4px 12px;
-                                    border-radius: 20px;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                    text-transform: uppercase;
-                                ">{{ flashcard.difficultyName }}</span>
+                        <div style="background: {{ flashcard.category.color|default('#6366f1') }}; color: white; padding: 15px 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                <span style="font-size: 14px; opacity: 0.9;">#{{ flashcard.id }}</span>
+                                <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase;">{{ flashcard.difficultyName }}</span>
                             </div>
                         </div>
 
-                        <!-- Card Content -->
                         <div style="padding: 20px;">
                             <div style="margin-bottom: 15px;">
-                                <h3 style="
-                                    font-size: 16px;
-                                    font-weight: 600;
-                                    color: #2d3748;
-                                    margin: 0 0 8px 0;
-                                ">Question:</h3>
-                                <p style="
-                                    color: #4a5568;
-                                    margin: 0;
-                                    line-height: 1.5;
-                                ">{{ flashcard.question|length > 80 ? flashcard.question|slice(0, 80) ~ '...' : flashcard.question }}</p>
+                                <h3 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0 0 8px 0;">Question:</h3>
+                                <p style="color: #4a5568; margin: 0; line-height: 1.5;">{{ flashcard.question|length > 80 ? flashcard.question|slice(0, 80) ~ '...' : flashcard.question }}</p>
                             </div>
 
                             <div style="margin-bottom: 15px;">
-                                <h3 style="
-                                    font-size: 16px;
-                                    font-weight: 600;
-                                    color: #2d3748;
-                                    margin: 0 0 8px 0;
-                                ">Answer:</h3>
-                                <p style="
-                                    color: #4a5568;
-                                    margin: 0;
-                                    line-height: 1.5;
-                                ">{{ flashcard.answer|length > 80 ? flashcard.answer|slice(0, 80) ~ '...' : flashcard.answer }}</p>
+                                <h3 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0 0 8px 0;">Answer:</h3>
+                                <p style="color: #4a5568; margin: 0; line-height: 1.5;">{{ flashcard.answer|length > 80 ? flashcard.answer|slice(0, 80) ~ '...' : flashcard.answer }}</p>
                             </div>
 
-                            <!-- Tags Section -->
                             {% if flashcard.tags|length > 0 %}
                             <div style="margin-bottom: 20px;">
-                                <h3 style="
-                                    font-size: 14px;
-                                    font-weight: 600;
-                                    color: #2d3748;
-                                    margin: 0 0 8px 0;
-                                ">Tags:</h3>
+                                <h3 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0 0 8px 0;">Tags:</h3>
                                 <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                                     {% for tag in flashcard.tags %}
-                                        <span style="
-                                            background: #38b2ac;
-                                            color: white;
-                                            padding: 3px 8px;
-                                            border-radius: 12px;
-                                            font-size: 12px;
-                                            font-weight: 500;
-                                        ">#{{ tag.name }}</span>
+                                        <span style="background: #38b2ac; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">#{{ tag.name }}</span>
                                     {% endfor %}
                                 </div>
                             </div>
                             {% endif %}
 
-                            <!-- Action Buttons -->
-                            <div style="
-                                display: flex;
-                                gap: 8px;
-                                flex-wrap: wrap;
-                            ">
-                                <a href="{{ path('app_flashcard_show', {'id': flashcard.id}) }}" style="
-                                    background-color: #17a2b8;
-                                    color: white;
-                                    padding: 8px 16px;
-                                    text-decoration: none;
-                                    border-radius: 6px;
-                                    font-size: 14px;
-                                    font-weight: 500;
-                                    transition: background-color 0.2s;
-                                    flex: 1;
-                                    text-align: center;
-                                " onmouseover="this.style.backgroundColor='#138496'" onmouseout="this.style.backgroundColor='#17a2b8'">
-                                    👁️ View
-                                </a>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="{{ path('app_flashcard_show', {'id': flashcard.id}) }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500; transition: background-color 0.2s; flex: 1; text-align: center;" onmouseover="this.style.backgroundColor='#138496'" onmouseout="this.style.backgroundColor='#17a2b8'">👁️ View</a>
                                 
-                                <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}" style="
-                                    background-color: #28a745;
-                                    color: white;
-                                    padding: 8px 16px;
-                                    text-decoration: none;
-                                    border-radius: 6px;
-                                    font-size: 14px;
-                                    font-weight: 500;
-                                    transition: background-color 0.2s;
-                                    flex: 1;
-                                    text-align: center;
-                                " onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28a745'">
-                                    ✏️ Edit
-                                </a>
+                                <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}" style="background-color: #28a745; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500; transition: background-color 0.2s; flex: 1; text-align: center;" onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28a745'">✏️ Edit</a>
                                 
                                 <div style="flex: 1;">
                                     {{ include('flashcard/_delete_form.html.twig') }}
@@ -195,42 +74,12 @@
                 {% endfor %}
             </div>
         {% else %}
-            <!-- Empty State -->
-            <div style="
-                background: white;
-                padding: 60px 30px;
-                border-radius: 12px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                text-align: center;
-            ">
-                <div style="
-                    font-size: 4rem;
-                    margin-bottom: 20px;
-                ">📝</div>
-                <h2 style="
-                    font-size: 1.8rem;
-                    color: #4a5568;
-                    margin: 0 0 10px 0;
-                ">No flashcards yet</h2>
-                <p style="
-                    color: #718096;
-                    font-size: 1.1rem;
-                    margin: 0 0 30px 0;
-                ">Create your first flashcard to start studying!</p>
+            <div style="background: white; padding: 60px 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">📝</div>
+                <h2 style="font-size: 1.8rem; color: #4a5568; margin: 0 0 10px 0;">No flashcards yet</h2>
+                <p style="color: #718096; font-size: 1.1rem; margin: 0 0 30px 0;">Create your first flashcard to start studying!</p>
                 
-                <a href="{{ path('app_flashcard_new') }}" style="
-                    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-                    color: white;
-                    padding: 12px 24px;
-                    text-decoration: none;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    font-size: 16px;
-                    transition: all 0.2s;
-                    display: inline-block;
-                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                    ➕ Create Your First Flashcard
-                </a>
+                <a href="{{ path('app_flashcard_new') }}" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.2s; display: inline-block;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">➕ Create Your First Flashcard</a>
             </div>
         {% endif %}
     </div>
