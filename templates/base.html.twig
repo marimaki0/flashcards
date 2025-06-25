@@ -1,17 +1,120 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Flashcards App{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-right a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-right a:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-right a.btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-right a.btn-primary:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-user {
+            color: #666;
+            font-weight: 500;
+            margin-right: 1rem;
+        }
+        
+        .page-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <div class="nav-left">📚 Flashcards</div>
+        <div class="nav-right">
+            {% if app.user %}
+                <span class="nav-user">Hello, {{ app.user.firstName }}!</span>
+                <a href="{{ path('app_home') }}">🏠 Home</a>
+                <a href="{{ path('app_flashcard_index') }}">🃏 Flashcards</a>
+                <a href="{{ path('app_category_index') }}">📁 Categories</a>
+                <a href="{{ path('app_tag_index') }}">🏷️ Tags</a>
+                <a href="{{ path('app_logout') }}" class="btn-primary">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="page-content">
         {% block body %}{% endblock %}
-    </body>
+    </div>
+    
+    {% block javascripts %}{% endblock %}
+</body>
 </html>

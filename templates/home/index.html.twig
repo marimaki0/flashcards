@@ -1,20 +1,127 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Dashboard - Flashcards{% endblock %}
+
+{% block stylesheets %}
+<style>
+.welcome { 
+    text-align: center; 
+    margin-bottom: 2rem; 
+    padding: 1.5rem; 
+    background: white; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+}
+.welcome h1 { color: #333; margin-bottom: 0.5rem; }
+.welcome p { color: #666; }
+
+.stats { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+    gap: 1rem; 
+    margin-bottom: 2rem; 
+}
+.stat { 
+    background: white; 
+    padding: 1rem; 
+    border-radius: 8px; 
+    text-align: center; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.stat h3 { font-size: 1.8rem; color: #667eea; margin-bottom: 0.3rem; }
+.stat p { color: #666; font-size: 0.9rem; }
+
+.actions { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 1rem; 
+}
+.card { 
+    background: white; 
+    padding: 1.5rem; 
+    border-radius: 8px; 
+    text-align: center; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s; 
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+.card-icon { font-size: 2rem; margin-bottom: 1rem; }
+.card h3 { color: #333; margin-bottom: 0.5rem; font-size: 1.1rem; }
+.card p { color: #666; margin-bottom: 1rem; font-size: 0.9rem; }
+
+.btn { 
+    display: inline-block; 
+    padding: 0.6rem 1.2rem; 
+    background: #667eea; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    font-size: 0.9rem;
+    transition: background 0.2s; 
+}
+.btn:hover { background: #5a6fd8; }
+.btn-orange { background: #ff9a56; }
+.btn-orange:hover { background: #ff8a42; }
+
+@media (max-width: 768px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .actions { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="welcome">
+    <h1>Hi {{ app.user.firstName }}! 👋</h1>
+    <p>Ready to study?</p>
+</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="stats">
+    <div class="stat">
+        <h3>{{ flashcards|length }}</h3>
+        <p>Cards</p>
+    </div>
+    <div class="stat">
+        <h3>{{ categories|length }}</h3>
+        <p>Categories</p>
+    </div>
+    <div class="stat">
+        <h3>{{ flashcards|filter(f => f.difficulty == 3)|length }}</h3>
+        <p>Hard</p>
+    </div>
+    <div class="stat">
+        <h3>{{ flashcards|filter(f => f.difficulty == 1)|length }}</h3>
+        <p>Easy</p>
+    </div>
+</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/var/www/templates/home/index.html.twig</code></li>
-    </ul>
+<div class="actions">
+    <div class="card">
+        <div class="card-icon">🃏</div>
+        <h3>Study Cards</h3>
+        <p>Practice with flashcards</p>
+        <a href="{{ path('app_flashcard_index') }}" class="btn">Start</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-icon">➕</div>
+        <h3>Add Card</h3>
+        <p>Create new flashcard</p>
+        <a href="{{ path('app_flashcard_new') }}" class="btn">Create</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-icon">📁</div>
+        <h3>Categories</h3>
+        <p>Manage categories</p>
+        <a href="{{ path('app_category_index') }}" class="btn btn-orange">View</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-icon">🏷️</div>
+        <h3>Tags</h3>
+        <p>Browse all tags</p>
+        <a href="{{ path('app_tag_index') }}" class="btn btn-orange">Browse</a>
+    </div>
 </div>
 {% endblock %}

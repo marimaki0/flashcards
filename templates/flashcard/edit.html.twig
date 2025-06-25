@@ -3,11 +3,79 @@
 {% block title %}Edit Flashcard{% endblock %}
 
 {% block body %}
-    <h1>Edit Flashcard</h1>
+<div style="
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 20px;
+">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <!-- Header -->
+        <div style="
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        ">
+            <h1 style="
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #4a5568;
+                margin: 0;
+            ">Edit Flashcard ✏️</h1>
+            <p style="
+                color: #718096;
+                margin: 10px 0 0 0;
+                font-size: 1.1rem;
+            ">Update your flashcard details</p>
+        </div>
 
-    {{ include('flashcard/_form.html.twig', {'button_label': 'Update'}) }}
+        <!-- Form -->
+        {{ include('flashcard/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_flashcard_index') }}">back to list</a>
+        <!-- Action Buttons -->
+        <div style="
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        ">
+            <a href="{{ path('app_flashcard_index') }}" style="
+                background-color: #6c757d;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: all 0.2s;
+                display: inline-block;
+            " onmouseover="this.style.backgroundColor='#5a6268'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#6c757d'; this.style.transform='translateY(0)'">
+                ← Back to list
+            </a>
 
-    {{ include('flashcard/_delete_form.html.twig') }}
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <a href="{{ path('app_flashcard_show', {'id': flashcard.id}) }}" style="
+                    background-color: #17a2b8;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    transition: all 0.2s;
+                    display: inline-block;
+                " onmouseover="this.style.backgroundColor='#138496'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#17a2b8'; this.style.transform='translateY(0)'">
+                    👁️ View
+                </a>
+                
+                {{ include('flashcard/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

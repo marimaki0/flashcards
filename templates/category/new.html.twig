@@ -3,9 +3,55 @@
 {% block title %}New Category{% endblock %}
 
 {% block body %}
-    <h1>Create new Category</h1>
+<div style="
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <!-- Header -->
+        <div style="
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            text-align: center;
+        ">
+            <h1 style="
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: #4a5568;
+                margin: 0;
+            ">Create New Category 📁</h1>
+            <p style="
+                color: #718096;
+                margin: 8px 0 0 0;
+                font-size: 1rem;
+            ">Add a new category to organize your flashcards</p>
+        </div>
 
-    {{ include('category/_form.html.twig') }}
+        <!-- Form -->
+        {{ include('category/_form.html.twig') }}
 
-    <a href="{{ path('app_category_index') }}">back to list</a>
+        <!-- Back Button -->
+        <div style="
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        ">
+            <a href="{{ path('app_category_index') }}" style="
+                background-color: #6c757d;
+                color: white;
+                padding: 8px 16px;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 14px;
+            ">← Back to list</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

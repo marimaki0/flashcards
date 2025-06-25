@@ -95,4 +95,16 @@ class Flashcard
 
         return $this;
     }
+    
+    public function getDifficultyName(): string
+    {
+    return match($this->difficulty) {
+        0 => 'Simple',
+        1 => 'Average',
+        2 => 'Hard',
+        default => 'Unknown'
+    };
+}    
+
+
 }

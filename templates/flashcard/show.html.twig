@@ -3,32 +3,71 @@
 {% block title %}Flashcard{% endblock %}
 
 {% block body %}
-    <h1>Flashcard</h1>
+<div style="
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 20px;
+">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        ">
+            <h1 style="margin-bottom: 30px;">Flashcard Details</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ flashcard.id }}</td>
-            </tr>
-            <tr>
-                <th>Question</th>
-                <td>{{ flashcard.question }}</td>
-            </tr>
-            <tr>
-                <th>Answer</th>
-                <td>{{ flashcard.answer }}</td>
-            </tr>
-            <tr>
-                <th>Difficulty</th>
-                <td>{{ flashcard.difficulty }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <th style="padding: 12px 0; text-align: left; font-weight: bold; width: 150px;">ID:</th>
+                        <td style="padding: 12px 0;">{{ flashcard.id }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <th style="padding: 12px 0; text-align: left; font-weight: bold;">Question:</th>
+                        <td style="padding: 12px 0;">{{ flashcard.question }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <th style="padding: 12px 0; text-align: left; font-weight: bold;">Answer:</th>
+                        <td style="padding: 12px 0;">{{ flashcard.answer }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <th style="padding: 12px 0; text-align: left; font-weight: bold;">Difficulty:</th>
+                        <td style="padding: 12px 0;">
+                            {% if flashcard.difficulty == 0 %}Simple
+                            {% elseif flashcard.difficulty == 1 %}Average  
+                            {% elseif flashcard.difficulty == 2 %}Hard
+                            {% else %}{{ flashcard.difficulty }}
+                            {% endif %}
+                        </td>
+                    </tr>
 
-    <a href="{{ path('app_flashcard_index') }}">back to list</a>
 
-    <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}">edit</a>
+                </tbody>
+            </table>
 
-    {{ include('flashcard/_delete_form.html.twig') }}
+            <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="{{ path('app_flashcard_index') }}" style="
+                    background-color: #6c757d;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    font-weight: 600;
+                ">Back to list</a>
+
+                <a href="{{ path('app_flashcard_edit', {'id': flashcard.id}) }}" style="
+                    background-color: #28a745;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    font-weight: 600;
+                ">Edit</a>
+
+                {{ include('flashcard/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

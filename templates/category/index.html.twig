@@ -1,39 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+<div style="
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 20px;
+">
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <div style="
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        ">
+            <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 30px;">Categories</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Color</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>{{ category.description }}</td>
-                <td>{{ category.color }}</td>
-                <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 12px 15px; text-align: left; font-weight: bold;">ID</th>
+                        <th style="padding: 12px 15px; text-align: left; font-weight: bold;">Name</th>
+                        <th style="padding: 12px 15px; text-align: left; font-weight: bold;">Description</th>
+                        <th style="padding: 12px 15px; text-align: left; font-weight: bold;">Color</th>
+                        <th style="padding: 12px 15px; text-align: center; font-weight: bold;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr style="border-top: 1px solid #e0e0e0;">
+                            <td style="padding: 10px 15px;">{{ category.id }}</td>
+                            <td style="padding: 10px 15px;">{{ category.name }}</td>
+                            <td style="padding: 10px 15px;">{{ category.description|default('-') }}</td>
+                            <td style="padding: 10px 15px;">
+                                <span style="
+                                    background-color: {{ category.color|default('#6366f1') }};
+                                    color: white;
+                                    padding: 4px 8px;
+                                    border-radius: 4px;
+                                    font-size: 12px;
+                                ">{{ category.color|default('default') }}</span>
+                            </td>
+                            <td style="padding: 10px 15px; text-align: center;">
+                                <a href="{{ path('app_category_show', {'id': category.id}) }}" style="
+                                    background-color: #17a2b8;
+                                    color: white;
+                                    padding: 6px 12px;
+                                    text-decoration: none;
+                                    border-radius: 4px;
+                                    font-size: 14px;
+                                    margin-right: 5px;
+                                ">Show</a>
+                                <a href="{{ path('app_category_edit', {'id': category.id}) }}" style="
+                                    background-color: #28a745;
+                                    color: white;
+                                    padding: 6px 12px;
+                                    text-decoration: none;
+                                    border-radius: 4px;
+                                    font-size: 14px;
+                                    margin-right: 5px;
+                                ">Edit</a>
+                                {{ include('category/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" style="padding: 20px; text-align: center;">No categories found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    <a href="{{ path('app_category_new') }}">Create new</a>
+            <div style="margin-top: 30px;">
+                <a href="{{ path('app_category_new') }}" style="
+                    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+                    color: white;
+                    padding: 12px 24px;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                ">Create new category</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

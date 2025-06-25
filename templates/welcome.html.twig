@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - Flashcards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-box">
+            <div class="header">
+                <h1>📚 Flashcards</h1>
+                <p>Simple learning tool</p>
+            </div>
+
+            <div class="toggle-buttons">
+                <button class="toggle-btn active" data-form="login">Login</button>
+                <button class="toggle-btn" data-form="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <h2>Welcome back</h2>
+                <form method="post" action="{{ path('app_login') }}">
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password" required>
+                    </div>
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" name="_remember_me">
+                            Remember me
+                        </label>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button type="submit" class="btn">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form hidden" id="registerForm">
+                <h2>Create account</h2>
+                <form method="post" action="{{ path('app_register') }}">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>First Name</label>
+                            <input type="text" name="registration_form[firstName]" required>
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <input type="text" name="registration_form[lastName]" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" name="registration_form[email]" required>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="registration_form[plainPassword]" required>
+                    </div>
+                    <button type="submit" class="btn">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(-45deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { width: 100%; max-width: 400px; }
+        .auth-box { 
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 24px; color: #333; margin-bottom: 5px; }
+        .header p { color: #666; font-size: 14px; }
+        .toggle-buttons { 
+            display: flex; 
+            background: #f0f0f0; 
+            border-radius: 6px; 
+            padding: 3px; 
+            margin-bottom: 25px; 
+        }
+        .toggle-btn { 
+            flex: 1; 
+            text-align: center; 
+            padding: 8px; 
+            border: none; 
+            background: transparent; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            cursor: pointer; 
+        }
+        .toggle-btn.active { 
+            background: white; 
+            color: #333; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+        }
+        .auth-form.hidden { display: none; }
+        .auth-form h2 { 
+            font-size: 20px; 
+            color: #333; 
+            margin-bottom: 20px; 
+            text-align: center; 
+        }
+        .field-row { display: flex; gap: 10px; }
+        .field { margin-bottom: 15px; flex: 1; }
+        .field label { 
+            display: block; 
+            margin-bottom: 5px; 
+            color: #333; 
+            font-size: 14px; 
+            font-weight: 500; 
+        }
+        .field input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 14px; 
+        }
+        .field input:focus { 
+            outline: none; 
+            border-color: #667eea; 
+        }
+        .checkbox { 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+        }
+        .checkbox input { width: auto; margin-right: 8px; }
+        .btn { 
+            width: 100%; 
+            background: linear-gradient(45deg, #667eea, #764ba2); 
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            cursor: pointer; 
+        }
+        .btn:hover { transform: translateY(-2px); }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            toggleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const formType = this.dataset.form;
+                    
+                    toggleButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (formType === 'login') {
+                        registerForm.classList.add('hidden');
+                        loginForm.classList.remove('hidden');
+                    } else {
+                        loginForm.classList.add('hidden');
+                        registerForm.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

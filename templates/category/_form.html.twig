@@ -1,4 +1,59 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div style="
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+">
+    {{ form_start(form) }}
+    
+    <div style="margin-bottom: 18px;">
+        {{ form_label(form.name, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
+        {{ form_widget(form.name, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box;'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    {% if form.description is defined %}
+    <div style="margin-bottom: 18px;">
+        {{ form_label(form.description, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
+        {{ form_widget(form.description, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; resize: vertical; min-height: 70px;'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+    {% endif %}
+
+    {% if form.color is defined %}
+    <div style="margin-bottom: 18px;">
+        {{ form_label(form.color, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
+        {{ form_widget(form.color, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box;'}}) }}
+        {{ form_errors(form.color) }}
+    </div>
+    {% endif %}
+
+    {% if form.user is defined %}
+    <div style="margin-bottom: 18px;">
+        {{ form_label(form.user, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
+        {{ form_widget(form.user, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: white;'}}) }}
+        {{ form_errors(form.user) }}
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 25px;">
+        <button type="submit" style="
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        ">
+            {{ button_label|default('Save') }}
+        </button>
+    </div>
+
+    <div style="display: none;">
+        {{ form_rest(form) }}
+    </div>
+    {{ form_end(form) }}
+</div>
