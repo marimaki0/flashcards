@@ -11,9 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller for managing tags
+ */
 #[Route('/tag')]
 final class TagController extends AbstractController
 {
+    /**
+     * Lists all tags
+     * @param TagRepository $tagRepository Repository to retrieve Tag entities
+     * @return Response Renders the index view with all tags
+     */
     #[Route(name: 'app_tag_index', methods: ['GET'])]
     public function index(TagRepository $tagRepository): Response
     {
@@ -22,6 +30,12 @@ final class TagController extends AbstractController
         ]);
     }
 
+    /**
+     * Creates a new tag
+     * @param Request $request HTTP request containing form data
+     * @param EntityManagerInterface $entityManager Entity manager for persisting data
+     * @return Response Renders the new form or redirects after successful creation
+     */
     #[Route('/new', name: 'app_tag_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -42,6 +56,11 @@ final class TagController extends AbstractController
         ]);
     }
 
+    /**
+     * Shows details of a specific tag
+     * @param Tag $tag The tag entity to display
+     * @return Response Renders the show view with tag details
+     */
     #[Route('/{id}', name: 'app_tag_show', methods: ['GET'])]
     public function show(Tag $tag): Response
     {
@@ -50,6 +69,13 @@ final class TagController extends AbstractController
         ]);
     }
 
+    /**
+     * Edits an existing tag
+     * @param Request $request HTTP request containing form data
+     * @param Tag $tag The tag entity to edit
+     * @param EntityManagerInterface $entityManager Entity manager for persisting changes
+     * @return Response Renders the edit form or redirects after successful update
+     */
     #[Route('/{id}/edit', name: 'app_tag_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
@@ -68,6 +94,13 @@ final class TagController extends AbstractController
         ]);
     }
 
+    /**
+     * Deletes a tag
+     * @param Request $request HTTP request containing CSRF token
+     * @param Tag $tag The tag entity to delete
+     * @param EntityManagerInterface $entityManager Entity manager for removing data
+     * @return Response Redirects to the tag index after deletion
+     */
     #[Route('/{id}', name: 'app_tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {

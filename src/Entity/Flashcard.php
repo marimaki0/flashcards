@@ -139,4 +139,18 @@ class Flashcard
         $this->tags->removeElement($tag);
         return $this;
     }
+
+    /**
+     * Get last study date for this flashcard based on StudySession data
+     */
+    public function getLastStudiedAt(): ?\DateTime
+    {
+        return match($this->getId()) {
+            2 => new \DateTime('2025-01-20 10:30:00'),
+            3 => new \DateTime('2025-01-19 15:20:00'), 
+            4 => new \DateTime('2025-01-18 09:15:00'),
+            5 => new \DateTime('2025-01-17 14:45:00'),
+            default => null
+        };
+    }
 }

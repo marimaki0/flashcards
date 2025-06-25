@@ -34,7 +34,17 @@
                         <div style="background: {{ flashcard.category.color|default('#6366f1') }}; color: white; padding: 15px 20px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                                 <span style="font-size: 14px; opacity: 0.9;">#{{ flashcard.id }}</span>
-                                <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase;">{{ flashcard.difficultyName }}</span>
+                                <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase;">
+                                    {% if flashcard.difficulty is defined %}
+                                        {% if flashcard.difficulty == 0 %}Easy
+                                        {% elseif flashcard.difficulty == 1 %}Medium  
+                                        {% elseif flashcard.difficulty == 2 %}Hard
+                                        {% else %}{{ flashcard.difficulty }}
+                                        {% endif %}
+                                    {% else %}
+                                        Study
+                                    {% endif %}
+                                </span>
                             </div>
                         </div>
 
@@ -49,8 +59,8 @@
                                 <p style="color: #4a5568; margin: 0; line-height: 1.5;">{{ flashcard.answer|length > 80 ? flashcard.answer|slice(0, 80) ~ '...' : flashcard.answer }}</p>
                             </div>
 
-                            {% if flashcard.tags|length > 0 %}
-                            <div style="margin-bottom: 20px;">
+                            {% if flashcard.tags is defined and flashcard.tags|length > 0 %}
+                            <div style="margin-bottom: 15px;">
                                 <h3 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0 0 8px 0;">Tags:</h3>
                                 <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                                     {% for tag in flashcard.tags %}
@@ -59,6 +69,18 @@
                                 </div>
                             </div>
                             {% endif %}
+
+                            <!-- Basic info instead of non-existent fields -->
+                            <div style="margin-bottom: 20px; padding: 12px; background: #f7fafc; border-radius: 8px; border-left: 3px solid #4299e1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <small style="color: #4a5568; font-size: 12px; font-weight: 600;">📁 Category:</small>
+                                    <small style="color: #2d3748; font-size: 12px;">{{ flashcard.category.name }}</small>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <small style="color: #4a5568; font-size: 12px; font-weight: 600;">🆔 ID:</small>
+                                    <small style="color: #2d3748; font-size: 12px; font-weight: 600;">#{{ flashcard.id }}</small>
+                                </div>
+                            </div>
 
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <a href="{{ path('app_flashcard_show', {'id': flashcard.id}) }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500; transition: background-color 0.2s; flex: 1; text-align: center;" onmouseover="this.style.backgroundColor='#138496'" onmouseout="this.style.backgroundColor='#17a2b8'">👁️ View</a>

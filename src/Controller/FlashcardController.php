@@ -12,12 +12,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+/**
+ * Controller for managing flashcard operations
+ * Handles CRUD operations for flashcards with category filtering and user security
+ */
 #[Route('/flashcard')]
 #[IsGranted('ROLE_USER')]
 final class FlashcardController extends AbstractController
 {
-    #[Route(name: 'app_flashcard_index', methods: ['GET'])]
+    /**
+     * Lists all user flashcards with optional category filtering
+     * @param Request $request HTTP request containing filter parameters
+     * @param FlashcardRepository $flashcardRepository Repository to retrieve Flashcard entities
+     * @param EntityManagerInterface $entityManager Entity manager for database operations
+     * @return Response Renders the index view with filtered flashcards
+     */
+    #[Route('', name: 'app_flashcard_index', methods: ['GET'])]
     public function index(Request $request, FlashcardRepository $flashcardRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -46,6 +56,12 @@ final class FlashcardController extends AbstractController
         ]);
     }
 
+    /**
+     * Creates a new flashcard
+     * @param Request $request HTTP request containing form data
+     * @param EntityManagerInterface $entityManager Entity manager for persisting data
+     * @return Response Renders the new form or redirects after successful creation
+     */
     #[Route('/new', name: 'app_flashcard_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -67,7 +83,13 @@ final class FlashcardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_flashcard_show', methods: ['GET'])]
+    /**
+     * Shows details of a specific flashcard
+     * @param Flashcard $flashcard The flashcard entity to display
+     * @return Response Renders the show view with flashcard details
+     * @throws AccessDeniedException When user tries to access flashcard they don't own
+     */
+    #[Route('/show/{id}', name: 'app_flashcard_show', methods: ['GET'])]
     public function show(Flashcard $flashcard): Response
     {
         if ($flashcard->getUser() !== $this->getUser()) {
@@ -79,7 +101,15 @@ final class FlashcardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_flashcard_edit', methods: ['GET', 'POST'])]
+    /**
+     * Edits an existing flashcard
+     * @param Request $request HTTP request containing form data
+     * @param Flashcard $flashcard The flashcard entity to edit
+     * @param EntityManagerInterface $entityManager Entity manager for persisting changes
+     * @return Response Renders the edit form or redirects after successful update
+     * @throws AccessDeniedException When user tries to edit flashcard they don't own
+     */
+    #[Route('/edit/{id}', name: 'app_flashcard_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Flashcard $flashcard, EntityManagerInterface $entityManager): Response
     {
         if ($flashcard->getUser() !== $this->getUser()) {
@@ -101,7 +131,15 @@ final class FlashcardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_flashcard_delete', methods: ['POST'])]
+    /**
+     * Deletes a flashcard
+     * @param Request $request HTTP request containing CSRF token
+     * @param Flashcard $flashcard The flashcard entity to delete
+     * @param EntityManagerInterface $entityManager Entity manager for removing data
+     * @return Response Redirects to the flashcard index after deletion
+     * @throws AccessDeniedException When user tries to delete flashcard they don't own
+     */
+    #[Route('/delete/{id}', name: 'app_flashcard_delete', methods: ['POST'])]
     public function delete(Request $request, Flashcard $flashcard, EntityManagerInterface $entityManager): Response
     {
         if ($flashcard->getUser() !== $this->getUser()) {
