@@ -88,7 +88,7 @@
                                 <span style="
                                     background: rgba(255,255,255,0.2);
                                     padding: 4px 12px;
-                                    border-radius: 20px;    
+                                    border-radius: 20px;
                                     font-size: 12px;
                                     font-weight: 600;
                                     text-transform: uppercase;
@@ -112,7 +112,7 @@
                                 ">{{ flashcard.question|length > 80 ? flashcard.question|slice(0, 80) ~ '...' : flashcard.question }}</p>
                             </div>
 
-                            <div style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 15px;">
                                 <h3 style="
                                     font-size: 16px;
                                     font-weight: 600;
@@ -125,6 +125,30 @@
                                     line-height: 1.5;
                                 ">{{ flashcard.answer|length > 80 ? flashcard.answer|slice(0, 80) ~ '...' : flashcard.answer }}</p>
                             </div>
+
+                            <!-- Tags Section -->
+                            {% if flashcard.tags|length > 0 %}
+                            <div style="margin-bottom: 20px;">
+                                <h3 style="
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    color: #2d3748;
+                                    margin: 0 0 8px 0;
+                                ">Tags:</h3>
+                                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                    {% for tag in flashcard.tags %}
+                                        <span style="
+                                            background: #38b2ac;
+                                            color: white;
+                                            padding: 3px 8px;
+                                            border-radius: 12px;
+                                            font-size: 12px;
+                                            font-weight: 500;
+                                        ">#{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
 
                             <!-- Action Buttons -->
                             <div style="

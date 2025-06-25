@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Flashcard;
 use App\Entity\User;
+use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,9 +21,9 @@ class FlashcardForm extends AbstractType
             ->add('answer')
             ->add('difficulty', ChoiceType::class, [
                 'choices' => [
-                    'Simple' => 1,
-                    'Average' => 2,
-                    'Hard' => 3,
+                    'Simple' => 0,
+                    'Average' => 1,
+                    'Hard' => 2,
                 ],
                 'placeholder' => 'Choose difficulty',
                 'label' => 'Difficulty Level',
@@ -39,6 +40,13 @@ class FlashcardForm extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a category',
             ])
+            ->add('tags', EntityType::class, [        
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+        ])
         ;
     }
 

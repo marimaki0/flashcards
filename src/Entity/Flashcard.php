@@ -5,6 +5,11 @@ namespace App\Entity;
 use App\Repository\FlashcardRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\Tag;
+use App\Entity\User;
+use App\Entity\Category;
 
 #[ORM\Entity(repositoryClass: FlashcardRepository::class)]
 class Flashcard
@@ -31,6 +36,18 @@ class Flashcard
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class)]
+    #[ORM\JoinTable(name: 'flashcard_tag')]
+    private Collection $tags;
+
+    public function __construct()   
+    {
+        $this->tags = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,7 +61,6 @@ class Flashcard
     public function setQuestion(string $question): static
     {
         $this->question = $question;
-
         return $this;
     }
 
@@ -56,7 +72,6 @@ class Flashcard
     public function setAnswer(string $answer): static
     {
         $this->answer = $answer;
-
         return $this;
     }
 
@@ -68,7 +83,6 @@ class Flashcard
     public function setDifficulty(int $difficulty): static
     {
         $this->difficulty = $difficulty;
-
         return $this;
     }
 
@@ -80,7 +94,6 @@ class Flashcard
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -92,19 +105,38 @@ class Flashcard
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
-
         return $this;
     }
-    
+
     public function getDifficultyName(): string
     {
-    return match($this->difficulty) {
-        0 => 'Simple',
-        1 => 'Average',
-        2 => 'Hard',
-        default => 'Unknown'
-    };
-}    
+        return match($this->difficulty) {
+            0 => 'Simple',
+            1 => 'Average',
+            2 => 'Hard',
+            default => 'Unknown'
+        };
+    }
 
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
 
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
+        return $this;
+    }
 }

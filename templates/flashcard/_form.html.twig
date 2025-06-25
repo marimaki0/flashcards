@@ -25,21 +25,23 @@
         {{ form_errors(form.difficulty) }}
     </div>
 
-    {% if form.category is defined %}
     <div style="margin-bottom: 18px;">
         {{ form_label(form.category, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
         {{ form_widget(form.category, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: white;'}}) }}
         {{ form_errors(form.category) }}
     </div>
-    {% endif %}
 
-    {% if form.user is defined %}
+    <div style="margin-bottom: 18px;">
+        {{ form_label(form.tags, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
+        {{ form_widget(form.tags, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: white;'}}) }}
+        {{ form_errors(form.tags) }}
+    </div>
+
     <div style="margin-bottom: 18px;">
         {{ form_label(form.user, null, {'label_attr': {'style': 'display: block; margin-bottom: 6px; font-weight: 600; color: #4a5568; font-size: 14px;'}}) }}
         {{ form_widget(form.user, {'attr': {'style': 'width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: white;'}}) }}
         {{ form_errors(form.user) }}
     </div>
-    {% endif %}
 
     <div style="margin-top: 25px;">
         <button type="submit" style="
